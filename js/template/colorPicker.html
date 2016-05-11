@@ -1,0 +1,36 @@
+<div class="row">
+    <div class="col-md-3">
+        <div class="btn-group">
+            <ul class="list-inline">
+                <li ng-repeat="color in colors"
+                    ng-style="{
+                        'background-color': color,
+				        'border':' 1px solid #333',
+				        'height':'20px',
+				        'width': '20px',
+				        'margin': '1px',
+				        '-moz-border-radius':'75px',
+				        '-webkit-border-radius':' 75px'
+				 }"
+                    ng-click="setColor(color)"
+                >
+                </li>
+            </ul>
+        </div>
+        <div class="btn-group">
+            <button type="button" 
+                    class="btn btn-default dropdown-toggle" 
+                    data-toggle="dropdown" 
+                    aria-haspopup="true" 
+                    aria-expanded="false">
+                    tools <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu">
+                <li ng-repeat="(key, value) in tools"
+                    ng-click="setTools(value)">
+                    <a href="#"><span class="{{value.icon}}">{{value.nom}}</span></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
