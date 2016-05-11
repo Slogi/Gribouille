@@ -18,16 +18,16 @@ module.exports = function () {
 		"black"
 	];
 
-	self.tool = {  'nom': "pen", 		'icon': "fa fa-pencil" 		};
+	self.tool = {'nom': "pen", 'icon': "fa fa-pencil"};
 
 	self.tools = [
-		{ 'nom': "pen", 		'icon': "fa fa-pencil" 		},
-		{ 'nom': "circle", 		'icon': "fa fa-circle-o" 	},
-		{ 'nom': "rectangle", 	'icon': "fa fa-square-o" 	},
-		{ 'nom': "text", 		'icon': "fa fa-font" 		}
+		{'nom': "pen", 'icon': "fa fa-pencil"},
+		{'nom': "circle", 'icon': "fa fa-circle-o"},
+		{'nom': "rectangle", 'icon': "fa fa-square-o"},
+		{'nom': "text", 'icon': "fa fa-font"}
 	];
 
-	self.linkPen = function(scope, element) {
+	self.linkPen = function (scope, element) {
 
 		var ctx = element[0].getContext('2d');
 
@@ -73,10 +73,6 @@ module.exports = function () {
 			drawing = false;
 		});
 
-		/*function reset(){
-		 element[0].width = element[0].width;
-		 }*/
-
 		function draw(lX, lY, cX, cY) {
 
 			// line from
@@ -90,15 +86,67 @@ module.exports = function () {
 		}
 	};
 
-	self.linkRectangle = function (tool, scope, element){
+	self.linkRectangle = function (tool, scope, element) {
 
-	};
+		var ctx = element[0].getContext('2d');
 
-	self.linkCircle = function (tool, scope, element){
+		// Are we drawing?
+		var drawing = false;
 
-	};
+		// the last coordinates before the current move
+		var centerX;
+		var centerY;
 
-	self.linkText = function (tool, scope, element){
+		element.bind('mousedown', function (event) {
+			startX = event.offsetX;
+			startY = event.offsetY;
 
-	};
+			// begins new line
+			ctx.beginPath();
+
+			drawing = true;
+		});
+
+		element.bind('mousemove', function (event) {
+			if (drawing) {
+
+				// get current mouse position
+				currentX = event.offsetX;
+				currentY = event.offsetY;
+
+				draw(startX, startY, currentX, currentY);
+
+				scope.$apply();
+			}
+
+		});
+
+		element.bind('mouseup', function (event) {
+			drawing = false;
+		});
+
+		function draw(centerX, centerY,
+					  currentX, currentY, rotate) {
+
+			var sizeX = 2 * (currentX - centerX);
+			var sizeY = 2 * (currentY - centerY);
+
+			ctx.rect(centerX - 0.5 * sizeX,
+				centerY - 0.5 * sizeY,
+				sizeX, sizeY);
+			ctx.lineWidth = 3;
+			// color
+			ctx.strokeStyle = scope.color;
+			// draw it
+			ctx.stroke();
+		}
+	}
+};
+
+self.linkCircle = function (tool, scope, element) {
+
+};
+
+self.linkText = function (tool, scope, element) {
+
 };
